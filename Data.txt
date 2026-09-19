@@ -1,0 +1,18 @@
+Application Name: Counter Burst
+Package Name: com.betwinner.counterburst
+Activity / Launchable: com.betwinner.counterburst.MainActivity
+Target Platform: Android (compileSdk 36, targetSdk 36, minSdk 26)
+Architecture / Framework: Kotlin, Jetpack Compose, Material 3, Clean Architecture (Domain/Data/Presentation)
+
+Key Store:
+  Path: app/CounterBurst.jks
+  Alias: counterburst
+  Store Password: Password123!
+  Key Password: Password123!
+
+Key Hash:
+  a1IklUp7zl09M2uHE52TYK/vOkk=
+
+Fingerprints:
+  SHA1: 6B:52:24:95:4A:7B:CE:5D:3D:33:6B:87:13:9D:93:60:AF:EF:3A:49
+  SHA256: E1:96:22:BB:B0:AA:95:55:48:FF:58:42:AC:1C:B6:CA:56:16:C4:55:F7:1F:A8:67:D7:43:49:4E:4B:69:AB:59
