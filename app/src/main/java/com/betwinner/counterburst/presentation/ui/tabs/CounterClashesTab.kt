@@ -1,16 +1,26 @@
 package com.betwinner.counterburst.presentation.ui.tabs
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.betwinner.counterburst.core.theme.BurstGold
-import com.betwinner.counterburst.core.theme.BurstMutedGreen
+import com.betwinner.counterburst.core.theme.*
+import com.betwinner.counterburst.domain.model.BreakoutVector
 import com.betwinner.counterburst.domain.model.CounterClashMatch
 import com.betwinner.counterburst.presentation.ui.components.CounterClashCard
 import com.betwinner.counterburst.presentation.viewmodel.BurstUiState
@@ -19,6 +29,7 @@ import com.betwinner.counterburst.presentation.viewmodel.BurstUiState
 fun CounterClashesTab(
     uiState: BurstUiState,
     onSelectClash: (CounterClashMatch) -> Unit,
+    onSelectVector: (BreakoutVector) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
@@ -28,12 +39,81 @@ fun CounterClashesTab(
         verticalArrangement = Arrangement.spacedBy(14.dp),
         contentPadding = PaddingValues(top = 16.dp, bottom = 24.dp)
     ) {
+        // Carousel of Breakout Vectors
+        item {
+            Column {
+                Text(
+                    text = "EXPLOSIVE BREAKOUT VECTORS",
+                    color = BurstGold,
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Black,
+                    letterSpacing = 1.sp
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                LazyRow(
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    items(uiState.vectors, key = { it.id }) { vector ->
+                        Card(
+                            modifier = Modifier
+                                .width(210.dp)
+                                .clickable { onSelectVector(vector) }
+                                .border(1.dp, BurstGreenBorder, RoundedCornerShape(14.dp)),
+                            shape = RoundedCornerShape(14.dp),
+                            colors = CardDefaults.cardColors(containerColor = BurstPitchDark)
+                        ) {
+                            Column(modifier = Modifier.padding(12.dp)) {
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.SpaceBetween,
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Text(
+                                        text = vector.vectorName,
+                                        color = BurstGoldBright,
+                                        fontSize = 13.sp,
+                                        fontWeight = FontWeight.Bold
+                                    )
+                                    Box(
+                                        modifier = Modifier
+                                            .clip(CircleShape)
+                                            .background(BurstGreenCard)
+                                            .padding(horizontal = 6.dp, vertical = 2.dp)
+                                    ) {
+                                        Text(
+                                            text = "${vector.transitionSpeedMps}m/s",
+                                            color = BurstGreenLime,
+                                            fontSize = 10.sp,
+                                            fontWeight = FontWeight.Bold
+                                        )
+                                    }
+                                }
+                                Text(
+                                    text = vector.vectorArchetype,
+                                    color = BurstMutedGreen,
+                                    fontSize = 10.sp
+                                )
+                                Spacer(modifier = Modifier.height(4.dp))
+                                Text(
+                                    text = vector.tacticalDescription,
+                                    color = BurstSoftSilver,
+                                    fontSize = 10.sp,
+                                    maxLines = 2,
+                                    lineHeight = 13.sp
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         item {
             Column {
                 Text(
                     text = "HISTORIC COUNTER-ATTACK CLASHES",
                     color = BurstGold,
-                    fontSize = 16.sp,
+                    fontSize = 15.sp,
                     fontWeight = FontWeight.Black,
                     letterSpacing = 0.8.sp
                 )
